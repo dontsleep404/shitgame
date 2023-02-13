@@ -1,28 +1,32 @@
 package com.example.myapplication.helper.ui
 
-class Panel (var x : Float, var y : Float, var width : Float, var height : Float){
+import android.graphics.Canvas
+
+open class Panel (var x : Float, var y : Float, var width : Float, var height : Float){
     private var isTouchDown : Boolean = false
     private var childs : ArrayList<Panel> = arrayListOf()
-    fun update(){
+    open fun update(){
         for(child in childs) child.update()
     }
-    fun render(){
-        for(child in childs) child.render()
+    open fun render(canvas : Canvas){
+        for(child in childs) child.render(canvas)
     }
     fun addChild(child: Panel){
         childs.add(child)
     }
-    fun onTouchDown(x : Float, y : Float){
+    open fun onTouchDown(x : Float, y : Float){
+        var touch = false;
         for(child in childs)
-            if(on(x, y, child)){
+            if(on(x, y, child) && !touch){
                 child.onTouchDown(x - child.x, y - child.y)
                 child.isTouchDown = true
+                if(breakTouch()) touch = true
             }
             else{
                 child.isTouchDown = false
             }
     }
-    fun onTouchUp(x : Float, y : Float){
+    open fun onTouchUp(x : Float, y : Float){
         for(child in childs){
             if(on(x, y, child) && child.isTouchDown){
                 child.onTouchUp(x - child.x, y - child.y)
@@ -31,10 +35,10 @@ class Panel (var x : Float, var y : Float, var width : Float, var height : Float
             child.isTouchDown = false
         }
     }
-    fun onTouch(){
+    open fun onTouch(){
         println("Touch")
     }
-    fun breakTouch() = true
+    open fun breakTouch() = true
     private fun on(x : Float, y : Float, child : Panel): Boolean {
         return x >= child.x && x <= child.x + child.width && y >= child.y && y <= child.y + child.height;
     }

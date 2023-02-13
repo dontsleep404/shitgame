@@ -6,34 +6,26 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.view.MotionEvent
 import android.view.View
+import com.example.myapplication.helper.game.Game
 
 class Canvas(context: Context?) : View(context){
-    var points : ArrayList<Point> = arrayListOf()
+    var game : Game? = null
     override fun onDraw(canvas: Canvas?) {
-        var paint = Paint()
-        paint.strokeWidth = 9f
-        paint.color = Color.RED
-        for(point in points) {
-            canvas?.drawCircle(point.x, point.y, 20f, paint)
+        if(game == null) game = Game(0f, 0f, width.toFloat(), height.toFloat())
+        canvas?.let {
+            game?.render(canvas)
         }
     }
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        points.add(Point(event!!.x, event!!.y))
         return super.onTouchEvent(event)
     }
 
     fun update(){
-        var listRemove : ArrayList<Point> = arrayListOf()
-        for(point in points){
-            if(point.y > height)
-                listRemove.add(point)
-            point.y += 10f
+        game?.let{
+            game?.update()
         }
-
     }
     fun draw(){
         invalidate()
     }
-}
-class Point(var x: Float,var y:Float){
 }
