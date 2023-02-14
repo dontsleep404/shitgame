@@ -5,7 +5,9 @@ import com.example.myapplication.helper.ui.Panel
 
 class Game(x: Float, y: Float, width: Float, height: Float) : Panel(x, y, width, height) {
     init {
-        GameActivity.currentScreen = GameScreen(x, y, width, height)
+        GameActivity.height = height
+        GameActivity.width = width
+        GameActivity.currentScreen = MenuScreen(x, y, width, height)
     }
     override fun update() {
         GameActivity.currentScreen?.update()
@@ -38,5 +40,7 @@ class Game(x: Float, y: Float, width: Float, height: Float) : Panel(x, y, width,
 class GameActivity{
     companion object{
         var currentScreen : Panel? = null
+        var width : Float = 0f
+        var height : Float = 0f
     }
 }

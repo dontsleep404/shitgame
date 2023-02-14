@@ -9,7 +9,13 @@ open class Panel (var x : Float, var y : Float, var width : Float, var height : 
         for(child in childs) child.update()
     }
     open fun render(canvas : Canvas){
-        for(child in childs) child.render(canvas)
+
+        for(child in childs) {
+            canvas.translate(child.x, child.y)
+            child.render(canvas)
+            canvas.translate(-child.x, -child.y)
+        }
+
     }
     fun addChild(child: Panel){
         childs.add(child)
