@@ -30,10 +30,7 @@ class MainActivity : AppCompatActivity() {
             while(true){
                 MyTimer.update()
                 if(fpsLimit.isUpdate(10, true)){
-                    //update
-                    myCanvas.update()
-                    //render
-                    myCanvas.draw()
+                    myCanvas.invalidate()
                 }
             }
         }.start()

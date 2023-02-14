@@ -15,6 +15,7 @@
         <activity
             android:name=".MainActivity"
             android:fitsSystemWindows="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:exported="true">
             <intent-filter>

@@ -15,12 +15,13 @@ open class Panel (var x : Float, var y : Float, var width : Float, var height : 
         childs.add(child)
     }
     open fun onTouchDown(x : Float, y : Float){
+        if(breakTouch()) return
         var touch = false;
         for(child in childs)
             if(on(x, y, child) && !touch){
                 child.onTouchDown(x - child.x, y - child.y)
                 child.isTouchDown = true
-                if(breakTouch()) touch = true
+                if(child.breakTouch()) touch = true
             }
             else{
                 child.isTouchDown = false
@@ -35,8 +36,21 @@ open class Panel (var x : Float, var y : Float, var width : Float, var height : 
             child.isTouchDown = false
         }
     }
+    open fun onDrag(x : Float, y : Float){
+        if(breakTouch()) return
+        var touch = false;
+        for(child in childs)
+            if(on(x, y, child) && !touch){
+                child.onDrag(x - child.x, y - child.y)
+                child.isTouchDown = true
+                if(child.breakTouch()) touch = true
+            }
+            else{
+                child.isTouchDown = false
+            }
+    }
     open fun onTouch(){
-        println("Touch")
+        //println("Touch")
     }
     open fun breakTouch() = true
     private fun on(x : Float, y : Float, child : Panel): Boolean {
